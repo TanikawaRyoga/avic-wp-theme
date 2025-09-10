@@ -1,0 +1,14 @@
+@use "../settings" as *;
+
+.pg_top{
+    background: #999;
+
+    &_mv {
+    width: 100%;
+    height: 100svh;
+       background-color: #666; 
+       display: flex;
+       align-items: center;
+       justify-content: center;
+    }
+}

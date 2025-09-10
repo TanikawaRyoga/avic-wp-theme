@@ -1,0 +1,10 @@
+@use "../settings" as *;
+
+@mixin inner($width) {
+   width: min(100% - 3.2rem, $width);
+   margin: 0 auto;
+}
+
+.ly_inner {
+    @include inner(128rem);
+}
