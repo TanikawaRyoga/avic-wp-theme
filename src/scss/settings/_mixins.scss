@@ -1,1 +1,18 @@
 @use 'sass:math';
+@use "sass:map";
+@use "variables" as *;
+
+/*===============================================
+　メディアクエリ用のmixin
+===============================================*/
+@mixin mq($break) {
+  $size: map.get($breakpoints, $break);
+
+  @if $size == null {
+    @error "ブレークポイント #{$break} が $breakpoints に存在しません。";
+  }
+
+  @media (max-width: $size) {
+    @content;
+  }
+}

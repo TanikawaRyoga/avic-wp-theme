@@ -1,4 +1,4 @@
-````markdown
+```markdown
 # AViC-WP-Theme 開発環境
 
 ## 開始方法
@@ -7,7 +7,7 @@
 
 ```powershell
 npm run wp-start
-````
+```
 
 ---
 

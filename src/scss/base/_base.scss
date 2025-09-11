@@ -1,5 +1,100 @@
 @use "../settings" as *;
 
-body{
-    background: red;
+/*===============================================
+  デザイン方式ごとのルート変数定義
+===============================================*/
+:root {
+  /*-----------------------------------------------
+    ① リキッドデザイン (画面幅に応じて可変)
+  -----------------------------------------------*/
+  --liquid-lg-ratio: calc(#{$design-lg-width} / 10); // 1200px 基準
+  --liquid-md-ratio: calc(#{$design-md-width} / 10); // 960px 基準
+  --liquid-sm-ratio: calc(#{$design-sm-width} / 10); // 560px 基準
+
+  --liquid-html-root: calc((var(--vw, 1vw) * 100) / var(--liquid-lg-ratio)); // 初期はPC幅
+  --liquid-body-root: #{size($font-size-base)}; // body用の基準フォントサイズ
+
+  @include mq(md) {
+    --liquid-html-root: calc((var(--vw, 1vw) * 100) / var(--liquid-md-ratio)); // md以上の幅
+  }
+
+  @include mq(sm) {
+    --liquid-html-root: calc((var(--vw, 1vw) * 100) / var(--liquid-sm-ratio)); // sm以上の幅
+  }
+
+  /*-----------------------------------------------
+    ② ソリッドデザイン (固定幅)
+  -----------------------------------------------*/
+  --solid-root: #{$font-size-base}; // 固定フォントサイズをそのまま適用
+
+  /*-----------------------------------------------
+    ③ モバイルファーストデザイン
+  -----------------------------------------------*/
+  --mobile-design-width: #{$design-mobile-width}; // 560px
+  --mobile-contents-width: #{$design-mobile-width}; // コンテンツ幅（必要に応じて可変）
+  --mobile-ratio: var(--mobile-contents-width) / var(--mobile-design-width); 
+  --mobile-root: min(
+    #{$font-size-base} * var(--mobile-ratio),
+    (#{strip-unit($font-size-base)} * 100 / var(--mobile-design-width)) * 1vw
+  );
+
+  /*-----------------------------------------------
+    共通要素
+  -----------------------------------------------*/
+  --header-height: $header-height;
+}
+
+/*===============================================
+  Body のベーススタイル
+===============================================*/
+body {
+  color: $color-text; // 基本文字色
+  letter-spacing: $letter-spacing-base; // 字間
+  line-height: $line-height-base; // 行間
+
+  // 改行まわり
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  // 文字組み（カーニング）
+  font-feature-settings: "palt";
+
+  // スマホブラウザ向け文字サイズ調整
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+
+  // フォントのアンチエイリアス処理
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*===============================================
+  Html のルートフォントサイズ切り替え
+===============================================*/
+
+html {
+  // リキッドデザインの場合
+  @if $design-root == "liquid" {
+    font-size: var(--liquid-html-root);
+
+    body {
+      font-size: var(--liquid-body-root);
+    }
+  }
+
+  // ソリッドデザインの場合
+  @else if $design-root == "solid" {
+    font-size: var(--solid-root);
+  }
+
+  // モバイルファーストデザインの場合
+  @else if $design-root == "mobile" {
+    font-size: var(--mobile-root);
+  }
+
+  // スクロール動作
+  scroll-behavior: smooth;
+
+  // スクロールバーによるレイアウト崩れを防止
+  scrollbar-gutter: stable;
 }

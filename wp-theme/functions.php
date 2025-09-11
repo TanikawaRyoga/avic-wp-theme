@@ -1,20 +1,33 @@
 <?php
-function avic_enqueue_scripts() {
-  // CSSを読み込む
-  wp_enqueue_style(
-    'avic-style',
-    get_template_directory_uri() . '/dist/css/style.min.css',
-    array(),
-    filemtime(get_template_directory() . '/dist/css/style.min.css')
-  );
+function theme_enqueue_assets() {
+    $theme_dir = get_template_directory();
+    $manifest_path = $theme_dir . '/dist/.vite/manifest.json';
 
-  // JSを読み込む（必要なら）
-  wp_enqueue_script(
-    'avic-main',
-    get_template_directory_uri() . '/dist/js/main.js',
-    array(),
-    filemtime(get_template_directory() . '/dist/js/main.js'),
-    true
-  );
+    if (!file_exists($manifest_path)) {
+        return;
+    }
+
+    $manifest = json_decode(file_get_contents($manifest_path), true);
+
+    // CSS
+    if (isset($manifest['scss/style.scss']['file'])) {
+        wp_enqueue_style(
+            'theme-style',
+            get_template_directory_uri() . '/dist/' . $manifest['scss/style.scss']['file'],
+            [],
+            null
+        );
+    }
+
+    // JS
+    if (isset($manifest['js/main.js']['file'])) {
+        wp_enqueue_script(
+            'theme-script',
+            get_template_directory_uri() . '/dist/' . $manifest['js/main.js']['file'],
+            [],
+            null,
+            true
+        );
+    }
 }
-add_action('wp_enqueue_scripts', 'avic_enqueue_scripts');
+add_action('wp_enqueue_scripts', 'theme_enqueue_assets');

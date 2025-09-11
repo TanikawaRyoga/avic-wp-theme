@@ -1,0 +1,73 @@
+/*===============================================
+  Reset CSS
+===============================================*/
+
+/* すべての余白・枠線をリセット */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 基本要素 */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: #fff;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 見出し・段落 */
+h1, h2, h3, h4, h5, h6,
+p {
+  font: inherit;
+  font-weight: normal;
+  line-height: inherit;
+}
+
+/* リスト */
+ul, ol {
+  list-style: none;
+}
+
+/* リンク */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* テーブル */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 0;
+  text-align: left;
+}
+
+/* フォーム系 */
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+/* 画像・メディア */
+img, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

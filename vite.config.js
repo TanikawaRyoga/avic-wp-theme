@@ -1,33 +1,50 @@
-// vite.config.js
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
+import liveReload from "vite-plugin-live-reload";
+import { resolve } from "path";
 
 export default defineConfig({
-  root: './src',
+  plugins: [
+    // PHPファイルが変更されたらブラウザをリロード
+    liveReload(__dirname + "/**/*.php"),
+  ],
+
+  root: "./src",
+  base: "/dist/",
+
   build: {
-    outDir: '../wp-theme/dist',
+    outDir: resolve(__dirname, "./wp-theme/dist"),
     emptyOutDir: true,
+    manifest: true, // WordPress 側で manifest.json を利用
     rollupOptions: {
       input: {
-        main: './src/js/main.js',       // JSのエントリーポイント
-        style: './src/scss/style.scss' // SCSSのエントリーポイント
+        main: resolve(__dirname, "./src/js/main.js"),
+        style: resolve(__dirname, "./src/scss/style.scss"),
       },
       output: {
-        // 出力されるファイル名を整理
-        entryFileNames: 'js/[name].js',
+        entryFileNames: "assets/[name].[hash].js",
+        chunkFileNames: "assets/[name].[hash].js",
         assetFileNames: (assetInfo) => {
-          if (/\.css$/i.test(assetInfo.name)) return 'css/[name].min[extname]'
-          if (/\.(woff2?|ttf|eot|svg)$/i.test(assetInfo.name)) return 'fonts/[name][extname]'
-          if (/\.(png|jpe?g|gif|webp)$/i.test(assetInfo.name)) return 'images/[name][extname]'
-          return '[name][extname]'
-        }
-      }
-    }
+          if (/\.css$/i.test(assetInfo.name)) {
+            return "assets/[name].[hash][extname]";
+          }
+          if (/\.(woff2?|ttf|eot|svg)$/i.test(assetInfo.name)) {
+            return "assets/fonts/[name].[hash][extname]";
+          }
+          if (/\.(png|jpe?g|gif|webp)$/i.test(assetInfo.name)) {
+            return "assets/images/[name].[hash][extname]";
+          }
+          return "assets/[name].[hash][extname]";
+        },
+      },
+    },
   },
+
   css: {
     preprocessorOptions: {
       scss: {
-        // additionalData: `@use "./src/scss/global" as *;`
-      }
-    }
-  }
-})
+        // グローバルに使いたいSCSSがある場合ここで追加読み込み
+        // additionalData: `@use "./src/scss/settings" as *;`
+      },
+    },
+  },
+});
