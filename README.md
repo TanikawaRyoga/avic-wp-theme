@@ -34,11 +34,14 @@ npm run build
 
 ## よく使うコマンド
 
-| コマンド                | 説明            |
-| ------------------- | ------------- |
-| `npm run wp-start`  | WordPress を起動 |
-| `npm run wp-stop`   | WordPress を停止 |
-| `npm run wp-update` | 環境を更新         |
-| `npm run build`     | SCSS/JS をビルド  |
+| コマンド                | 説明                             |
+| ------------------- | -------------------------------- |
+| `npm install`       | 依存パッケージをインストール        |
+| `npm run wp-start`  | WordPress を起動                  |
+| `npm run wp-stop`   | WordPress を停止                  |
+| `npm run wp-update` | 環境を更新                        |
+| `npm run dev`       | 開発モード（SCSS/JS を監視してビルド） |
+| `npm run build`     | 本番ビルド（SCSS/JS を最適化）       |
+| `wp-env destroy`    | WordPress 環境をリセット（最終手段） |
 
 ```
