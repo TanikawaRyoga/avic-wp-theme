@@ -1,4 +1,3 @@
-```markdown
 # AViC-WP-Theme 開発環境
 
 ## 開始方法
@@ -42,5 +41,4 @@ npm run build
 | `npm run wp-update` | 環境を更新         |
 | `npm run build`     | SCSS/JS をビルド  |
 
-```
 ```
